@@ -116,10 +116,10 @@ namespace biz.dfch.CS.StateMachine
             AddStates(new List<String> { InitialState, RunningState, CompletedState, CancelledState, ErrorState, FinalState });
             AddConditions(new List<String> { ContinueCondition, CancelCondition });
 
-            InitDefaultStateTransitions();
+            SetDefaultStateTransitions();
         }
 
-        private void InitDefaultStateTransitions()
+        private void SetDefaultStateTransitions()
         {
             SetStateTransition(InitialState, ContinueCondition, RunningState);
             SetStateTransition(InitialState, CancelCondition, ErrorState);
@@ -236,23 +236,12 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        // DFTODO refactor -> make it more clear
+        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
         protected StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
         {
             lock (Lock)
             {
-                if (!States.Contains(sourceState))
-                {
-                    throw new KeyNotFoundException(String.Format("sourceState not found: '{0}'", sourceState));
-                }
-                if (!States.Contains(targetState))
-                {
-                    throw new KeyNotFoundException(String.Format("targetState not found: '{0}'", targetState));
-                }
-                if (!Conditions.Contains(condition))
-                {
-                    throw new KeyNotFoundException(String.Format("condition not found: '{0}'", condition));
-                }
+                ValidateInput(sourceState, condition, targetState);
                 String _processState;
                 var stateTransition = new StateTransition(sourceState, condition);
                 var fReturn = Transitions.TryGetValue(stateTransition, out _processState);
@@ -272,30 +261,16 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        // DFTODO refactor -> make it more clear
+        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
         protected StateMachine InsertStateTransition(String sourceState, String condition, String targetStateNew, bool fCreateTargetState = false)
         {
             lock (Lock)
             {
-                if (!States.Contains(sourceState))
-                {
-                    throw new KeyNotFoundException(String.Format("sourceState not found: '{0}'", sourceState));
-                }
-                if (!States.Contains(targetStateNew))
-                {
-                    if (!fCreateTargetState)
-                    {
-                        throw new KeyNotFoundException(String.Format("targetStateNew not found: '{0}'", targetStateNew));
-                    }
-                    AddState(targetStateNew);
-                }
-                if (!Conditions.Contains(condition))
-                {
-                    throw new KeyNotFoundException(String.Format("condition not found: '{0}'", condition));
-                }
+                ValidateInput(sourceState, condition, targetStateNew, fCreateTargetState);
                 String _processState;
                 var stateTransition = new StateTransition(sourceState, condition);
                 var fReturn = Transitions.TryGetValue(stateTransition, out _processState);
+                // DFCHECK Why this check? It should not throw an exception, if stateTransition was not found
                 if (!fReturn)
                 {
                     throw new ArgumentException(String.Format("stateTransition not found: '{0}' -- > '{1}'", sourceState, condition));
@@ -308,8 +283,27 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        // DFTODO Rename to GetNextState
-        public String GetNext(String condition)
+        private void ValidateInput(string sourceState, string condition, string targetState, bool fCreateTargetState = false)
+        {
+            if (!States.Contains(sourceState))
+            {
+                throw new KeyNotFoundException(String.Format("sourceState not found: '{0}'", sourceState));
+            }
+            if (!States.Contains(targetState))
+            {
+                if (!fCreateTargetState)
+                {
+                    throw new KeyNotFoundException(String.Format("targetStateNew not found: '{0}'", targetState));
+                }
+                AddState(targetState);
+            }
+            if (!Conditions.Contains(condition))
+            {
+                throw new KeyNotFoundException(String.Format("condition not found: '{0}'", condition));
+            }
+        }
+
+        public String GetNextState(String condition)
         {
             StateTransition transition = new StateTransition(CurrentState, condition);
             String _nextState;
@@ -323,18 +317,15 @@ namespace biz.dfch.CS.StateMachine
             return _nextState;
         }
 
-        // DFTODO rename to Next()
-        public String MoveNext() { return Continue(); }
-        public String Continue() { return MoveNext(ContinueCondition); }
-        public String Cancel() { return MoveNext(CancelCondition); }
+        public String Next() { return Continue(); }
+        public String Continue() { return ChangeState(ContinueCondition); }
+        public String Cancel() { return ChangeState(CancelCondition); }
 
-        // DFTODO Rename method to ChangeState?
-        public String MoveNext(String condition)
+        public String ChangeState(String condition)
         {
             lock (Lock)
             {
-                // DFTCHECK Rename GetNext method to a more meaningful name
-                String _nextState = GetNext(condition);
+                String _nextState = GetNextState(condition);
                 PreviousState = CurrentState;
                 CurrentState = _nextState;
             }
@@ -351,9 +342,7 @@ namespace biz.dfch.CS.StateMachine
             }
         }
 
-        // DFTCHECK Check if replacing JavaScriptSearializer with Netwonsoft Json lib makes sense
-        // DFTODO rename method (ToString/GetStringRepresentation?)
-        public virtual String GetStateMachine()
+        public virtual String GetStringRepresentation()
         {
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             lock (Lock)
