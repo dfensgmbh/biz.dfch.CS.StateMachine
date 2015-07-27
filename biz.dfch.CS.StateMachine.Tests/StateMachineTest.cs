@@ -168,6 +168,54 @@ namespace biz.dfch.CS.StateMachine.Tests
             // DFTODO impl
         }
 
+        [TestMethod]
+        public void AddStateWithNonExistingStateAddsStateToStateMachine()
+        {
+            // DFTODO impl
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddStateWithAlreadyExistingStateThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddStatesWithStateCollectionContainingNotExistingStatesIgnoringExistingAddsAllStatesToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddStatesWithStateCollectionContainingNotExistingStatesNotIgnoringExistingAddsAllStatesToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddStatesWithStateCollectionContainingExistingStatesNotIgnoringExistingThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddStatesWithStateCollectionContainingExistingStatesIgnoringExistingAddsAllStatesToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        // DFTODO impl tests for: SetStateTransition
+        // DFTODO impl tests for: InsertStateTransition
+        // DFTODO impl tests for: GetNextState
+        // DFTODO impl tests for: Next
+        // DFTODO impl tests for: Continue
+        // DFTODO impl tests for: Cancel
+        // DFTODO impl tests for: ChangeState
+        // DFTODO impl tests for: Clear
+        // DFTODO impl tests for: GetStringRepresentation
+        // DFTODO impl tests for: StateTransition.ToString()
+        // DFTODO impl tests for: StateTransition.Equals(transition)
     }
 }
