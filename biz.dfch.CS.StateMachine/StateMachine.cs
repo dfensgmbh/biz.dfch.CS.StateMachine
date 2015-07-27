@@ -25,7 +25,7 @@ namespace biz.dfch.CS.StateMachine
         protected HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
         protected HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
         protected Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
-        protected Object Lock;
+        protected Object Lock = new Object();
 
         public String CurrentState { get; protected set; }
         public String PreviousState { get; protected set; }
