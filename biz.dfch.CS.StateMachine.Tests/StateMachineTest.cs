@@ -22,9 +22,152 @@ namespace biz.dfch.CS.StateMachine.Tests
     [TestClass]
     public class StateMachineTest
     {
-        [TestMethod]
-        public void TestMethod1()
+        private const String CREATED_STATE = "Created";
+        private const String ERROR_STATE = "InternalErrorState";
+        private const String RUNNING_STATE = "Running";
+        private const String COMPLETED_STATE = "Completed";
+        private const String CANCELLED_STATE = "Cancelled";
+        private const String FINAL_STATE = "Disposed";
+        private const String CONTINUE_CONDITION = "Continue";
+        private const String CANCEL_CONDITION = "Cancel";
+        private StateMachine _stateMachine;
+
+        [TestInitialize]
+        public void TestInitialize()
         {
+            _stateMachine = new StateMachine();
         }
+
+        [TestMethod]
+        public void CurrentStateOfNewlyCreatedInstanceReturnsCreated()
+        {
+            Assert.AreEqual(CREATED_STATE, _stateMachine.CurrentState);
+        }
+
+        [TestMethod]
+        public void PreviousStateOfNewlyCreatedInstanceReturnsCreated()
+        {
+            Assert.AreEqual(CREATED_STATE, _stateMachine.CurrentState);
+        }
+
+        [TestMethod]
+        public void InitialStateReturnsCreated()
+        {
+            Assert.AreEqual(CREATED_STATE, _stateMachine.InitialState);
+        }
+
+        [TestMethod]
+        public void IsInitialStateOfNewlyCreatedInstanceReturnsTrue()
+        {
+            Assert.IsTrue(_stateMachine.IsInitialState);
+        }
+
+        [TestMethod]
+        public void RunningStateReturnsRunning()
+        {
+            Assert.AreEqual(RUNNING_STATE, _stateMachine.RunningState);
+        }
+
+        [TestMethod]
+        public void ErrorStateReturnsInternalErrorState()
+        {
+            Assert.AreEqual(ERROR_STATE, _stateMachine.ErrorState);
+        }
+
+        [TestMethod]
+        public void CompletedStateReturnsCompleted()
+        {
+            Assert.AreEqual(COMPLETED_STATE, _stateMachine.CompletedState);
+        }
+
+        [TestMethod]
+        public void CancelledStateReturnsCancelled()
+        {
+            Assert.AreEqual(CANCELLED_STATE, _stateMachine.CancelledState);
+        }
+
+        [TestMethod]
+        public void FinalStateReturnsDisposed()
+        {
+            Assert.AreEqual(FINAL_STATE, _stateMachine.FinalState);
+        }
+
+        [TestMethod]
+        public void IsFinalStateOfNewlyCreatedInstanceReturnsFalse()
+        {
+            Assert.IsFalse(_stateMachine.IsFinalState);
+        }
+
+        [TestMethod]
+        public void ContinueConditionReturnsContinue()
+        {
+            Assert.AreEqual(CONTINUE_CONDITION, _stateMachine.ContinueCondition);
+        }
+
+        [TestMethod]
+        public void CancelConditionReturnsCancel()
+        {
+            Assert.AreEqual(CANCEL_CONDITION, _stateMachine.CancelCondition);
+        }
+
+        [TestMethod]
+        public void StateMachinesDefaultConstructorAddsDefaultStates()
+        {
+            // DFTODO impl   
+        }
+
+        [TestMethod]
+        public void StateMachinesDefaultConstructorAddsDefaultConditions()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void StateMachinesDefaultConstructorAddsDefaultTransitions()
+        {
+            // DFTODO impl
+        }
+
+        // DFTODO impl tests for SetupStateMachine
+
+        [TestMethod]
+        public void AddConditionWithNonExistingConditionAddsConditionToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddConditionWithAlreadyExistingConditionThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddConditionsWithConditionCollectionContainingNotExistingConditionsIgnoringExistingAddsAllConditionsToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddConditionsWithConditionCollectionContainingNotExistingConditionsNotIgnoringExistingAddsAllConditionsToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddConditionsWithConditionCollectionContainingExistingConditionsNotIgnoringExistingThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void AddConditionsWithConditionCollectionContainingExistingConditionsIgnoringExistingAddsAllConditionsToStateMachine()
+        {
+            // DFTODO impl
+        }
+
+
     }
 }
