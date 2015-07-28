@@ -16,6 +16,7 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace biz.dfch.CS.StateMachine.Tests
 {
@@ -128,7 +129,43 @@ namespace biz.dfch.CS.StateMachine.Tests
             // DFTODO impl
         }
 
-        // DFTODO impl tests for SetupStateMachine
+        [TestMethod]
+        public void SetupStateMachineWithValidConfigurationReturnsTrue()
+        {
+            
+        }
+
+        [TestMethod]
+        public void SetupStateMachineWithValidConfigurationAddsConditionsOfCondiguration()
+        {
+
+        }
+
+        [TestMethod]
+        public void SetupStateMachineWithValidConfigurationAddsStatesOfCondiguration()
+        {
+
+        }
+
+        [TestMethod]
+        public void SetupStateMachineWithValidConfigurationSetsStateTransitionsAccordingCondiguration()
+        {
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetupStateMachineWithNonExistingCurrentStateThrowsException()
+        {
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetupStateMachineWithNonExistingPreviousStateThrowsException()
+        {
+
+        }
 
         [TestMethod]
         public void AddConditionWithNonExistingConditionAddsConditionToStateMachine()
@@ -206,16 +243,126 @@ namespace biz.dfch.CS.StateMachine.Tests
             // DFTODO impl
         }
 
-        // DFTODO impl tests for: SetStateTransition
-        // DFTODO impl tests for: InsertStateTransition
-        // DFTODO impl tests for: GetNextState
-        // DFTODO impl tests for: Next
-        // DFTODO impl tests for: Continue
-        // DFTODO impl tests for: Cancel
-        // DFTODO impl tests for: ChangeState
-        // DFTODO impl tests for: Clear
-        // DFTODO impl tests for: GetStringRepresentation
-        // DFTODO impl tests for: StateTransition.ToString()
-        // DFTODO impl tests for: StateTransition.Equals(transition)
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void SetStateTransitionWithNonExistingSourceStateThrowsException()
+        {
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void SetStateTransitionWithNonExistingTargetStateAndCreateTargetStateFlagFalseThrowsException()
+        {
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void SetStateTransitionWithNonExistingConditionThrowsException()
+        {
+            
+        }
+
+        [TestMethod]
+        public void SetStateTransitionWithExistingStateTransitionAndReplaceTrueReplacesTransition()
+        {
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void SetStateTransitionWithExistingStateTransitionAndReplaceFalseThrowsException()
+        {
+
+        }
+
+        [TestMethod]
+        public void SetStateTransitionWithNonExistingStateTransitionAddsTransition()
+        {
+
+        } 
+
+        [TestMethod]
+        public void GetNextStateWithValidConditionReturnsNextState()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void GetNextStateWithNonExistingConditionThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void NextChangesStateWithContinueCondition()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NextForStateWithNoContinueTransitionThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void CancelChangesStateWithCancelCondition()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void CancelForStateWithNoCancelTransitionThrowsException()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void ChangeStateGetsNextStateBasedOnConditionAndReturnsNextState()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void ClearResetsStatesConditionsAndTransitions()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void GetStringRepresentationReturnsJsonRepresentationOfStateMachine()
+        {
+            // DFTODO impl
+        }
+
+
+        [TestMethod]
+        public void StateTransitionToStringReturnsStringRepresentationOfStateTransition()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void StateTransitionEqualsStateTransitionsWithSameCurrentStateAndConditionReturnsTrue()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void StateTransitionEqualsStateTransitionsWithDifferentCurrentStateAndConditionReturnsFalse()
+        {
+            // DFTODO impl
+        }
+
+        [TestMethod]
+        public void StateTransitionEqualsNullReturnsFalse()
+        {
+            // DFTODO impl
+        }
     }
 }
