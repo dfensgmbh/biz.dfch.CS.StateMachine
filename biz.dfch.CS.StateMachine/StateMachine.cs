@@ -18,14 +18,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("biz.dfch.CS.StateMachine.Tests")]
 namespace biz.dfch.CS.StateMachine
 {
     public class StateMachine
     {
-        protected HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
-        protected HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
-        protected Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
-        protected Object Lock = new Object();
+        protected internal HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
+        protected internal HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
+        protected internal Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
+        protected internal Object Lock = new Object();
 
         public String CurrentState { get; protected set; }
         public String PreviousState { get; protected set; }
@@ -172,7 +173,7 @@ namespace biz.dfch.CS.StateMachine
             return fReturn;
         }
 
-        protected StateMachine AddCondition(String name)
+        protected internal StateMachine AddCondition(String name)
         {
             lock (Lock)
             {
@@ -186,7 +187,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -203,7 +204,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddState(String name)
+        protected internal StateMachine AddState(String name)
         {
             lock (Lock)
             {
@@ -217,7 +218,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddStates(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine AddStates(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -234,7 +235,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
+        protected internal StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
         {
             lock (Lock)
             {
@@ -307,7 +308,7 @@ namespace biz.dfch.CS.StateMachine
             return CurrentState;
         }
 
-        protected virtual void Clear()
+        protected internal virtual void Clear()
         {
             lock (Lock)
             {
@@ -328,7 +329,7 @@ namespace biz.dfch.CS.StateMachine
             }
         }
 
-        protected class StateTransition
+        protected internal class StateTransition
         {
             readonly String CurrentState;
             readonly String Condition;
