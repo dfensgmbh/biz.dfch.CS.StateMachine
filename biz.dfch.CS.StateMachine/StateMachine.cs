@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,10 +137,9 @@ namespace biz.dfch.CS.StateMachine
         public virtual bool SetupStateMachine(String configuration, String currentState = null, String previousState = null)
         {
             var fReturn = false;
-            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             lock (Lock)
             {
-                Dictionary<String, String> dic = jss.Deserialize<Dictionary<String, String>>(configuration);
+                Dictionary<String, String> dic = JsonConvert.DeserializeObject<Dictionary<String, String>>(configuration);
                 Clear();
                 foreach (KeyValuePair<String, String> item in dic)
                 {
@@ -320,11 +320,10 @@ namespace biz.dfch.CS.StateMachine
 
         public virtual String GetStringRepresentation()
         {
-            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             lock (Lock)
             {
                 var dic = Transitions.ToDictionary(k => k.Key.ToString(), v => v.Value);
-                var stateMachineSerialised = jss.Serialize(dic);
+                var stateMachineSerialised = JsonConvert.SerializeObject(dic);
                 return stateMachineSerialised;
             }
         }
