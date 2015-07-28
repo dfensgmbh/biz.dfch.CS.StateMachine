@@ -39,7 +39,8 @@ namespace biz.dfch.CS.StateMachine.Tests
         private const String CONDITION_DEPLOY = "Deploy";
         private const String CONDITION_RUN = "Run";
 
-        private const String STRING_REPRESENTATION = "{\"Created-Continue\":\"Running\",\"Created-Cancel\":\"InternalErrorState\",\"Running-Continue\":\"Completed\",\"Running-Cancel\":\"Cancelled\",\"Completed-Continue\":\"Disposed\",\"Completed-Cancel\":\"InternalErrorState\",\"Cancelled-Continue\":\"Disposed\",\"Cancelled-Cancel\":\"InternalErrorState\",\"InternalErrorState-Continue\":\"Disposed\"}";
+        private const String DEFAULT_STATE_MACHINE_STRING_REPRESENTATION = "{\"Created-Continue\":\"Running\",\"Created-Cancel\":\"InternalErrorState\",\"Running-Continue\":\"Completed\",\"Running-Cancel\":\"Cancelled\",\"Completed-Continue\":\"Disposed\",\"Completed-Cancel\":\"InternalErrorState\",\"Cancelled-Continue\":\"Disposed\",\"Cancelled-Cancel\":\"InternalErrorState\",\"InternalErrorState-Continue\":\"Disposed\"}";
+        private const String CUSTOM_STATE_MACHINE_CONFIGURATION = "{\"Created-Continue\":\"Stopped\",\"Created-Cancel\":\"InternalErrorState\",\"Stopped-Run\":\"Running\",\"Running-Cancel\":\"Cancelled\"}";
 
         private StateMachine _stateMachine;
 
@@ -168,39 +169,64 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationReturnsTrue()
         {
-            // DFTODO impl
+            Assert.IsTrue(_stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION));
+        }
+
+        [TestMethod]
+        public void SetupStateMachineWithEmptyConfigurationReturnsTrue()
+        {
+            Assert.IsTrue(_stateMachine.SetupStateMachine("{}"));
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationAddsConditionsOfCondiguration()
         {
-            // DFTODO impl
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CONTINUE));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CANCEL));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_RUN));
+            Assert.AreEqual(3, _stateMachine.Conditions.Count);
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationAddsStatesOfCondiguration()
         {
-            // DFTODO impl
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_CREATED));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_STOPPED));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_ERROR));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_RUNNING));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_CANCELLED));
+            Assert.AreEqual(5, _stateMachine.States.Count);
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationSetsStateTransitionsAccordingCondiguration()
         {
-            // DFTODO impl
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_STOPPED, CONDITION_RUN);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            Assert.AreEqual(4, _stateMachine.Transitions.Count);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingCurrentStateThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_PENDING);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingPreviousStateThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_CREATED, STATE_PENDING);
         }
 
         [TestMethod]
@@ -402,7 +428,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestMethod]
         public void GetStringRepresentationReturnsJsonRepresentationOfStateMachine()
         {
-            Assert.AreEqual(STRING_REPRESENTATION, _stateMachine.GetStringRepresentation());
+            Assert.AreEqual(DEFAULT_STATE_MACHINE_STRING_REPRESENTATION, _stateMachine.GetStringRepresentation());
         }
 
 
