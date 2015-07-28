@@ -23,14 +23,24 @@ namespace biz.dfch.CS.StateMachine.Tests
     [TestClass]
     public class StateMachineTest
     {
-        private const String CREATED_STATE = "Created";
-        private const String ERROR_STATE = "InternalErrorState";
-        private const String RUNNING_STATE = "Running";
-        private const String COMPLETED_STATE = "Completed";
-        private const String CANCELLED_STATE = "Cancelled";
-        private const String FINAL_STATE = "Disposed";
-        private const String CONTINUE_CONDITION = "Continue";
-        private const String CANCEL_CONDITION = "Cancel";
+        private const String STATE_CREATED = "Created";
+        private const String STATE_ERROR = "InternalErrorState";
+        private const String STATE_RUNNING = "Running";
+        private const String STATE_COMPLETED = "Completed";
+        private const String STATE_CANCELLED = "Cancelled";
+        private const String STATE_FINAL = "Disposed";
+
+        private const String STATE_PENDING = "Pending";
+        private const String STATE_STOPPED = "Stopped";
+
+        private const String CONDITION_CONTINUE = "Continue";
+        private const String CONDITION_CANCEL = "Cancel";
+
+        private const String CONDITION_DEPLOY = "Deploy";
+        private const String CONDITION_RUN = "Run";
+
+        private const String STRING_REPRESENTATION = "{\"Created-Continue\":\"Running\",\"Created-Cancel\":\"InternalErrorState\",\"Running-Continue\":\"Completed\",\"Running-Cancel\":\"Cancelled\",\"Completed-Continue\":\"Disposed\",\"Completed-Cancel\":\"InternalErrorState\",\"Cancelled-Continue\":\"Disposed\",\"Cancelled-Cancel\":\"InternalErrorState\",\"InternalErrorState-Continue\":\"Disposed\"}";
+
         private StateMachine _stateMachine;
 
         [TestInitialize]
@@ -42,19 +52,19 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestMethod]
         public void CurrentStateOfNewlyCreatedInstanceReturnsCreated()
         {
-            Assert.AreEqual(CREATED_STATE, _stateMachine.CurrentState);
+            Assert.AreEqual(STATE_CREATED, _stateMachine.CurrentState);
         }
 
         [TestMethod]
         public void PreviousStateOfNewlyCreatedInstanceReturnsCreated()
         {
-            Assert.AreEqual(CREATED_STATE, _stateMachine.CurrentState);
+            Assert.AreEqual(STATE_CREATED, _stateMachine.CurrentState);
         }
 
         [TestMethod]
         public void InitialStateReturnsCreated()
         {
-            Assert.AreEqual(CREATED_STATE, _stateMachine.InitialState);
+            Assert.AreEqual(STATE_CREATED, _stateMachine.InitialState);
         }
 
         [TestMethod]
@@ -66,31 +76,31 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestMethod]
         public void RunningStateReturnsRunning()
         {
-            Assert.AreEqual(RUNNING_STATE, _stateMachine.RunningState);
+            Assert.AreEqual(STATE_RUNNING, _stateMachine.RunningState);
         }
 
         [TestMethod]
         public void ErrorStateReturnsInternalErrorState()
         {
-            Assert.AreEqual(ERROR_STATE, _stateMachine.ErrorState);
+            Assert.AreEqual(STATE_ERROR, _stateMachine.ErrorState);
         }
 
         [TestMethod]
         public void CompletedStateReturnsCompleted()
         {
-            Assert.AreEqual(COMPLETED_STATE, _stateMachine.CompletedState);
+            Assert.AreEqual(STATE_COMPLETED, _stateMachine.CompletedState);
         }
 
         [TestMethod]
         public void CancelledStateReturnsCancelled()
         {
-            Assert.AreEqual(CANCELLED_STATE, _stateMachine.CancelledState);
+            Assert.AreEqual(STATE_CANCELLED, _stateMachine.CancelledState);
         }
 
         [TestMethod]
         public void FinalStateReturnsDisposed()
         {
-            Assert.AreEqual(FINAL_STATE, _stateMachine.FinalState);
+            Assert.AreEqual(STATE_FINAL, _stateMachine.FinalState);
         }
 
         [TestMethod]
@@ -102,267 +112,331 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestMethod]
         public void ContinueConditionReturnsContinue()
         {
-            Assert.AreEqual(CONTINUE_CONDITION, _stateMachine.ContinueCondition);
+            Assert.AreEqual(CONDITION_CONTINUE, _stateMachine.ContinueCondition);
         }
 
         [TestMethod]
         public void CancelConditionReturnsCancel()
         {
-            Assert.AreEqual(CANCEL_CONDITION, _stateMachine.CancelCondition);
+            Assert.AreEqual(CONDITION_CANCEL, _stateMachine.CancelCondition);
         }
 
         [TestMethod]
         public void StateMachinesDefaultConstructorAddsDefaultStates()
         {
-            // DFTODO impl   
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_CREATED));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_RUNNING));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_COMPLETED));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_CANCELLED));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_ERROR));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_FINAL));
+            Assert.AreEqual(6, _stateMachine.States.Count);
         }
 
         [TestMethod]
         public void StateMachinesDefaultConstructorAddsDefaultConditions()
         {
-            // DFTODO impl
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CONTINUE));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CANCEL));
+            Assert.AreEqual(2, _stateMachine.Conditions.Count);
         }
 
         [TestMethod]
         public void StateMachinesDefaultConstructorAddsDefaultTransitions()
         {
-            // DFTODO impl
+            Assert.AreEqual(9, _stateMachine.Transitions.Count);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_COMPLETED, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_COMPLETED, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_CANCELLED, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_CANCELLED, CONDITION_CANCEL);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
+            transition = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
+            Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationReturnsTrue()
         {
-            
+            // DFTODO impl
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationAddsConditionsOfCondiguration()
         {
-
+            // DFTODO impl
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationAddsStatesOfCondiguration()
         {
-
+            // DFTODO impl
         }
 
         [TestMethod]
         public void SetupStateMachineWithValidConfigurationSetsStateTransitionsAccordingCondiguration()
         {
-
+            // DFTODO impl
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingCurrentStateThrowsException()
         {
-
+            // DFTODO impl
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingPreviousStateThrowsException()
         {
-
+            // DFTODO impl
         }
 
         [TestMethod]
         public void AddConditionWithNonExistingConditionAddsConditionToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddCondition(CONDITION_DEPLOY);
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_DEPLOY));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void AddConditionWithAlreadyExistingConditionThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.AddCondition(CONDITION_CANCEL);
         }
 
         [TestMethod]
         public void AddConditionsWithConditionCollectionContainingNotExistingConditionsIgnoringExistingAddsAllConditionsToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddConditions(new List<String>{ CONDITION_DEPLOY, CONDITION_RUN }, true);
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_DEPLOY));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_RUN));
         }
 
         [TestMethod]
         public void AddConditionsWithConditionCollectionContainingNotExistingConditionsNotIgnoringExistingAddsAllConditionsToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddConditions(new List<String> { CONDITION_DEPLOY, CONDITION_RUN });
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_DEPLOY));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_RUN));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void AddConditionsWithConditionCollectionContainingExistingConditionsNotIgnoringExistingThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.AddConditions(new List<String> { CONDITION_DEPLOY, CONDITION_RUN, CONDITION_CANCEL });
         }
 
         [TestMethod]
         public void AddConditionsWithConditionCollectionContainingExistingConditionsIgnoringExistingAddsAllConditionsToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddConditions(new List<String> { CONDITION_DEPLOY, CONDITION_RUN, CONDITION_CANCEL }, true);
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_DEPLOY));
+            Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_RUN));
         }
 
         [TestMethod]
         public void AddStateWithNonExistingStateAddsStateToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddState(STATE_PENDING);
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_PENDING));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void AddStateWithAlreadyExistingStateThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.AddState(STATE_RUNNING);
         }
 
         [TestMethod]
         public void AddStatesWithStateCollectionContainingNotExistingStatesIgnoringExistingAddsAllStatesToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddStates(new List<String>{ STATE_PENDING, STATE_STOPPED }, true);
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_PENDING));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_STOPPED));
         }
 
         [TestMethod]
         public void AddStatesWithStateCollectionContainingNotExistingStatesNotIgnoringExistingAddsAllStatesToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddStates(new List<String> { STATE_PENDING, STATE_STOPPED }, false);
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_PENDING));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_STOPPED));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void AddStatesWithStateCollectionContainingExistingStatesNotIgnoringExistingThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.AddStates(new List<String> { STATE_PENDING, STATE_STOPPED, STATE_COMPLETED });
         }
 
         [TestMethod]
         public void AddStatesWithStateCollectionContainingExistingStatesIgnoringExistingAddsAllStatesToStateMachine()
         {
-            // DFTODO impl
+            _stateMachine.AddStates(new List<String> { STATE_PENDING, STATE_STOPPED, STATE_COMPLETED }, true);
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_PENDING));
+            Assert.IsTrue(_stateMachine.States.Contains(STATE_STOPPED));
         }
 
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingSourceStateThrowsException()
         {
-            
+            _stateMachine.SetStateTransition(STATE_STOPPED, CONDITION_CANCEL, STATE_CANCELLED);
         }
 
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingTargetStateAndCreateTargetStateFlagFalseThrowsException()
         {
-            
+            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_STOPPED);
         }
 
         [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingConditionThrowsException()
         {
-            
+            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_RUN, STATE_COMPLETED);
         }
 
         [TestMethod]
         public void SetStateTransitionWithExistingStateTransitionAndReplaceTrueReplacesTransition()
         {
-            
+            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_ERROR, true);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            Assert.AreEqual(STATE_ERROR, _stateMachine.Transitions[transition]);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void SetStateTransitionWithExistingStateTransitionAndReplaceFalseThrowsException()
         {
-
+            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_ERROR);
         }
 
         [TestMethod]
         public void SetStateTransitionWithNonExistingStateTransitionAddsTransition()
         {
-
+            _stateMachine.SetStateTransition(STATE_ERROR, CONDITION_CANCEL, STATE_FINAL);
+            var transition = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CANCEL);
+            Assert.AreEqual(STATE_FINAL, _stateMachine.Transitions[transition]);
         } 
 
         [TestMethod]
         public void GetNextStateWithValidConditionReturnsNextState()
         {
-            // DFTODO impl
+            Assert.AreEqual(STATE_ERROR, _stateMachine.GetNextState(CONDITION_CANCEL));
+            Assert.AreEqual(STATE_RUNNING, _stateMachine.GetNextState(CONDITION_CONTINUE));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetNextStateWithNonExistingConditionThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.GetNextState(CONDITION_DEPLOY);
         }
 
         [TestMethod]
         public void NextChangesStateWithContinueCondition()
         {
-            // DFTODO impl
+            Assert.AreEqual(STATE_RUNNING, _stateMachine.Next());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NextForStateWithNoContinueTransitionThrowsException()
         {
-            // DFTODO impl
+           _stateMachine.Next();
+           _stateMachine.Next();
+           _stateMachine.Next();
+           _stateMachine.Next();
         }
 
         [TestMethod]
         public void CancelChangesStateWithCancelCondition()
         {
-            // DFTODO impl
+            Assert.AreEqual(STATE_ERROR, _stateMachine.Cancel());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CancelForStateWithNoCancelTransitionThrowsException()
         {
-            // DFTODO impl
+            _stateMachine.Next();
+            _stateMachine.Next();
+            _stateMachine.Next();
+            _stateMachine.Cancel();
         }
 
         [TestMethod]
         public void ChangeStateGetsNextStateBasedOnConditionAndReturnsNextState()
         {
-            // DFTODO impl
+            Assert.AreEqual(STATE_RUNNING, _stateMachine.GetNextState(CONDITION_CONTINUE));
+            Assert.AreEqual(STATE_ERROR, _stateMachine.GetNextState(CONDITION_CANCEL));
         }
 
         [TestMethod]
         public void ClearResetsStatesConditionsAndTransitions()
         {
-            // DFTODO impl
+            _stateMachine.Clear();
+            Assert.AreEqual(0, _stateMachine.States.Count);
+            Assert.AreEqual(0, _stateMachine.Conditions.Count);
+            Assert.AreEqual(0, _stateMachine.Transitions.Count);
         }
 
         [TestMethod]
         public void GetStringRepresentationReturnsJsonRepresentationOfStateMachine()
         {
-            // DFTODO impl
+            Assert.AreEqual(STRING_REPRESENTATION, _stateMachine.GetStringRepresentation());
         }
 
 
         [TestMethod]
         public void StateTransitionToStringReturnsStringRepresentationOfStateTransition()
         {
-            // DFTODO impl
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            Assert.AreEqual(STATE_CREATED + "-" + CONDITION_RUN, transition.ToString());
         }
 
         [TestMethod]
         public void StateTransitionEqualsStateTransitionsWithSameCurrentStateAndConditionReturnsTrue()
         {
-            // DFTODO impl
+            var transition1 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            Assert.IsTrue(transition1.Equals(transition2));
         }
 
         [TestMethod]
         public void StateTransitionEqualsStateTransitionsWithDifferentCurrentStateAndConditionReturnsFalse()
         {
-            // DFTODO impl
+            var transition1 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            Assert.IsFalse(transition1.Equals(transition2));
+            transition1 = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
+            transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            Assert.IsFalse(transition1.Equals(transition2));
         }
 
         [TestMethod]
         public void StateTransitionEqualsNullReturnsFalse()
         {
-            // DFTODO impl
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            Assert.IsFalse(transition.Equals(null));
         }
     }
 }
