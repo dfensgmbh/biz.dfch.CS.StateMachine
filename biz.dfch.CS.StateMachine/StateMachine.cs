@@ -234,7 +234,6 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
         protected StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
         {
             lock (Lock)
@@ -255,28 +254,6 @@ namespace biz.dfch.CS.StateMachine
                     }
                 }
                 Transitions.Add(stateTransition, targetState);
-            }
-            return this;
-        }
-
-        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
-        protected StateMachine InsertStateTransition(String sourceState, String condition, String targetStateNew, bool fCreateTargetState = false)
-        {
-            lock (Lock)
-            {
-                ValidateInput(sourceState, condition, targetStateNew, fCreateTargetState);
-                String _processState;
-                var stateTransition = new StateTransition(sourceState, condition);
-                var fReturn = Transitions.TryGetValue(stateTransition, out _processState);
-                // DFCHECK Why this check? It should not throw an exception, if stateTransition was not found
-                if (!fReturn)
-                {
-                    throw new ArgumentException(String.Format("stateTransition not found: '{0}' -- > '{1}'", sourceState, condition));
-                }
-                Transitions.Remove(stateTransition);
-                Transitions.Add(stateTransition, targetStateNew);
-                var stateTransitionNew = new StateTransition(targetStateNew, condition);
-                Transitions.Add(stateTransitionNew, _processState);
             }
             return this;
         }
