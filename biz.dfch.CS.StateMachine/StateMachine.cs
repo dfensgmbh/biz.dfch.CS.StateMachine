@@ -139,9 +139,7 @@ namespace biz.dfch.CS.StateMachine
             lock (Lock)
             {
                 Dictionary<String, String> dic = jss.Deserialize<Dictionary<String, String>>(configuration);
-                Transitions.Clear();
-                States.Clear();
-                Conditions.Clear();
+                Clear();
                 foreach (KeyValuePair<String, String> item in dic)
                 {
                     var sourceStateCondition = item.Key.Split('-');
