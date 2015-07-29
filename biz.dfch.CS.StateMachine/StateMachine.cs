@@ -22,7 +22,7 @@ using System.Linq;
 [assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("biz.dfch.CS.StateMachine.Tests")]
 namespace biz.dfch.CS.StateMachine
 {
-    public class StateMachine
+    public class StateMachine<T>
     {
         protected internal HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
         protected internal HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
@@ -173,7 +173,7 @@ namespace biz.dfch.CS.StateMachine
             return fReturn;
         }
 
-        protected internal StateMachine AddCondition(String name)
+        protected internal StateMachine<T> AddCondition(String name)
         {
             lock (Lock)
             {
@@ -187,7 +187,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected internal StateMachine AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine<T> AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -204,7 +204,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected internal StateMachine AddState(String name)
+        protected internal StateMachine<T> AddState(String name)
         {
             lock (Lock)
             {
@@ -218,7 +218,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected internal StateMachine AddStates(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine<T> AddStates(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -235,7 +235,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected internal StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
+        protected internal StateMachine<T> SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
         {
             lock (Lock)
             {
