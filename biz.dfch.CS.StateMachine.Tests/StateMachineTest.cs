@@ -364,6 +364,14 @@ namespace biz.dfch.CS.StateMachine.Tests
         } 
 
         [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void ValidateInputThrowsExceptionForNonExistingSourceState()
+        {
+            var wrapper = new PrivateObject(_stateMachine);
+            wrapper.Invoke("ValidateInput", new Object[4] { STATE_STOPPED, CONDITION_CONTINUE, STATE_RUNNING, false });
+        }
+
+        [TestMethod]
         public void GetNextStateWithValidConditionReturnsNextState()
         {
             Assert.AreEqual(STATE_ERROR, _stateMachine.GetNextState(CONDITION_CANCEL));
