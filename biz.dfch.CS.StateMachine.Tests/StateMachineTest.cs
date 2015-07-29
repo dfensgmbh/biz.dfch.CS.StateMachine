@@ -23,6 +23,8 @@ namespace biz.dfch.CS.StateMachine.Tests
     [TestClass]
     public class StateMachineTest
     {
+        private const String TENANT_ID = "aTenant";
+        private const String USER_ID = "aUser";
         private const String STATE_CREATED = "Created";
         private const String STATE_ERROR = "InternalErrorState";
         private const String STATE_RUNNING = "Running";
@@ -47,7 +49,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            _stateMachine = new StateMachine<Object>();
+            _stateMachine = new StateMachine<Object>(TENANT_ID, USER_ID);
         }
 
         [TestMethod]
@@ -121,9 +123,17 @@ namespace biz.dfch.CS.StateMachine.Tests
         {
             Assert.AreEqual(CONDITION_CANCEL, _stateMachine.CancelCondition);
         }
-
+        
         [TestMethod]
-        public void StateMachinesDefaultConstructorAddsDefaultStates()
+        [WorkItem(7)]
+        public void StateMachinesConstructorSetsTenantAndUser()
+        {
+            Assert.AreEqual(TENANT_ID, _stateMachine.TenantId);
+            Assert.AreEqual(USER_ID, _stateMachine.UserId);
+        }
+        
+        [TestMethod]
+        public void StateMachinesConstructorAddsDefaultStates()
         {
             Assert.IsTrue(_stateMachine.States.Contains(STATE_CREATED));
             Assert.IsTrue(_stateMachine.States.Contains(STATE_RUNNING));
@@ -135,7 +145,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        public void StateMachinesDefaultConstructorAddsDefaultConditions()
+        public void StateMachinesConstructorAddsDefaultConditions()
         {
             Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CONTINUE));
             Assert.IsTrue(_stateMachine.Conditions.Contains(CONDITION_CANCEL));
@@ -143,7 +153,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        public void StateMachinesDefaultConstructorAddsDefaultTransitions()
+        public void StateMachinesConstructorAddsDefaultTransitions()
         {
             Assert.AreEqual(9, _stateMachine.Transitions.Count);
             var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
