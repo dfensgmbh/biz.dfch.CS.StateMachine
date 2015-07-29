@@ -306,6 +306,7 @@ namespace biz.dfch.CS.StateMachine
             lock (Lock)
             {
                 String _nextState = GetNextState(condition);
+                // DFTODO #5
                 PreviousState = CurrentState;
                 CurrentState = _nextState;
             }
