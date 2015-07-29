@@ -29,6 +29,8 @@ namespace biz.dfch.CS.StateMachine
         protected internal Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
         protected internal Object Lock = new Object();
 
+        public String TenantId { get; private set; }
+        public String UserId { get; private set; }
         public String CurrentState { get; protected set; }
         public String PreviousState { get; protected set; }
         public String InitialState
@@ -110,8 +112,10 @@ namespace biz.dfch.CS.StateMachine
             protected set { }
         }
 
-        public StateMachine()
+        public StateMachine(String tenantId, String userId)
         {
+            TenantId = tenantId;
+            UserId = userId;
             CurrentState = InitialState;
             PreviousState = InitialState;
 
