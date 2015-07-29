@@ -457,6 +457,7 @@ namespace biz.dfch.CS.StateMachine.Tests
             Assert.AreEqual(typeof(Object), _stateMachine.GetType().GenericTypeArguments[0]);
         }
 
+
         [TestMethod]
         public void StateTransitionToStringReturnsStringRepresentationOfStateTransition()
         {
