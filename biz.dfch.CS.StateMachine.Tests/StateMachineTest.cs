@@ -432,6 +432,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
+        [WorkItem(6)]
         public void GenericTypeArgumentsReturnsTypeOfStateMachineInstance()
         {
             Assert.IsTrue(_stateMachine.GetType().IsGenericType);
