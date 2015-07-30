@@ -2,9 +2,7 @@
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/LICENSE)
 
 
-A simple C# based State Machine that can be configured via State Transitions.
-
-Based on an idea by [Juliet](http://stackoverflow.com/users/40516/juliet) "[Simple state machine example in C#?](http://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c)"
+A simple C# based State Machine that can be configured via State Transitions based on an idea by [Juliet](http://stackoverflow.com/users/40516/juliet) "[Simple state machine example in C#?](http://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c)"
 
 # DESCRIPTION
 
