@@ -23,8 +23,6 @@ namespace biz.dfch.CS.StateMachine.Tests
     [TestClass]
     public class StateMachineTest
     {
-        private const String TENANT_ID = "aTenant";
-        private const String USER_ID = "aUser";
         private const String STATE_CREATED = "Created";
         private const String STATE_ERROR = "InternalErrorState";
         private const String STATE_RUNNING = "Running";
@@ -44,12 +42,12 @@ namespace biz.dfch.CS.StateMachine.Tests
         private const String DEFAULT_STATE_MACHINE_STRING_REPRESENTATION = "{\"Created-Continue\":\"Running\",\"Created-Cancel\":\"InternalErrorState\",\"Running-Continue\":\"Completed\",\"Running-Cancel\":\"Cancelled\",\"Completed-Continue\":\"Disposed\",\"Completed-Cancel\":\"InternalErrorState\",\"Cancelled-Continue\":\"Disposed\",\"Cancelled-Cancel\":\"InternalErrorState\",\"InternalErrorState-Continue\":\"Disposed\"}";
         private const String CUSTOM_STATE_MACHINE_CONFIGURATION = "{\"Created-Continue\":\"Stopped\",\"Created-Cancel\":\"InternalErrorState\",\"Stopped-Run\":\"Running\",\"Running-Cancel\":\"Cancelled\"}";
 
-        private StateMachine<Object> _stateMachine;
+        private StateMachine _stateMachine;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _stateMachine = new StateMachine<Object>(TENANT_ID, USER_ID);
+            _stateMachine = new StateMachine();
         }
 
         [TestMethod]
@@ -125,14 +123,6 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
         
         [TestMethod]
-        [WorkItem(7)]
-        public void StateMachinesConstructorSetsTenantAndUser()
-        {
-            Assert.AreEqual(TENANT_ID, _stateMachine.TenantId);
-            Assert.AreEqual(USER_ID, _stateMachine.UserId);
-        }
-        
-        [TestMethod]
         public void StateMachinesConstructorAddsDefaultStates()
         {
             Assert.IsTrue(_stateMachine.States.Contains(STATE_CREATED));
@@ -156,23 +146,23 @@ namespace biz.dfch.CS.StateMachine.Tests
         public void StateMachinesConstructorAddsDefaultTransitions()
         {
             Assert.AreEqual(9, _stateMachine.Transitions.Count);
-            var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_RUNNING, CONDITION_CONTINUE);
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_COMPLETED, CONDITION_CONTINUE);
+            transition = new StateMachine.StateTransition(STATE_COMPLETED, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_COMPLETED, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_COMPLETED, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_CANCELLED, CONDITION_CONTINUE);
+            transition = new StateMachine.StateTransition(STATE_CANCELLED, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_CANCELLED, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_CANCELLED, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
+            transition = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
         }
 
@@ -214,13 +204,13 @@ namespace biz.dfch.CS.StateMachine.Tests
         public void SetupStateMachineWithValidConfigurationSetsStateTransitionsAccordingCondiguration()
         {
             _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
-            var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_STOPPED, CONDITION_RUN);
+            transition = new StateMachine.StateTransition(STATE_STOPPED, CONDITION_RUN);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
-            transition = new StateMachine<Object>.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
+            transition = new StateMachine.StateTransition(STATE_RUNNING, CONDITION_CANCEL);
             Assert.IsTrue(_stateMachine.Transitions.ContainsKey(transition));
             Assert.AreEqual(4, _stateMachine.Transitions.Count);
         }
@@ -354,7 +344,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         public void SetStateTransitionWithExistingStateTransitionAndReplaceTrueReplacesTransition()
         {
             _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_ERROR, true);
-            var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
             Assert.AreEqual(STATE_ERROR, _stateMachine.Transitions[transition]);
         }
 
@@ -369,7 +359,7 @@ namespace biz.dfch.CS.StateMachine.Tests
         public void SetStateTransitionWithNonExistingStateTransitionAddsTransition()
         {
             _stateMachine.SetStateTransition(STATE_ERROR, CONDITION_CANCEL, STATE_FINAL);
-            var transition = new StateMachine<Object>.StateTransition(STATE_ERROR, CONDITION_CANCEL);
+            var transition = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CANCEL);
             Assert.AreEqual(STATE_FINAL, _stateMachine.Transitions[transition]);
         } 
 
@@ -449,45 +439,37 @@ namespace biz.dfch.CS.StateMachine.Tests
             Assert.AreEqual(DEFAULT_STATE_MACHINE_STRING_REPRESENTATION, _stateMachine.GetStringRepresentation());
         }
 
-        [TestMethod]
-        [WorkItem(6)]
-        public void GenericTypeArgumentsReturnsTypeOfStateMachineInstance()
-        {
-            Assert.IsTrue(_stateMachine.GetType().IsGenericType);
-            Assert.AreEqual(typeof(Object), _stateMachine.GetType().GenericTypeArguments[0]);
-        }
-
 
         [TestMethod]
         public void StateTransitionToStringReturnsStringRepresentationOfStateTransition()
         {
-            var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
             Assert.AreEqual(STATE_CREATED + "-" + CONDITION_RUN, transition.ToString());
         }
 
         [TestMethod]
         public void StateTransitionEqualsStateTransitionsWithSameCurrentStateAndConditionReturnsTrue()
         {
-            var transition1 = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_RUN);
-            var transition2 = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition1 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
             Assert.IsTrue(transition1.Equals(transition2));
         }
 
         [TestMethod]
         public void StateTransitionEqualsStateTransitionsWithDifferentCurrentStateAndConditionReturnsFalse()
         {
-            var transition1 = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_RUN);
-            var transition2 = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            var transition1 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
             Assert.IsFalse(transition1.Equals(transition2));
-            transition1 = new StateMachine<Object>.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
-            transition2 = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
+            transition1 = new StateMachine.StateTransition(STATE_ERROR, CONDITION_CONTINUE);
+            transition2 = new StateMachine.StateTransition(STATE_CREATED, CONDITION_CONTINUE);
             Assert.IsFalse(transition1.Equals(transition2));
         }
 
         [TestMethod]
         public void StateTransitionEqualsNullReturnsFalse()
         {
-            var transition = new StateMachine<Object>.StateTransition(STATE_CREATED, CONDITION_RUN);
+            var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
             Assert.IsFalse(transition.Equals(null));
         }
     }
