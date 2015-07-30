@@ -44,9 +44,9 @@ InternalErrorState | Continue | Disposed
 
 ## Basic functionalities
 
-1. The "[Continue](./biz.dfch.CS.StateMachine/StateMachine.cs#L94)" condition makes a transition from an arbitrary state to the next state as the "good case"
-1. The "[Cancel](./biz.dfch.CS.StateMachine/StateMachine.cs#L02)" condition makes a transition from an arbitrary state to the next state as the "bad case"
-1. Furthermore there is the "[GetNext](./biz.dfch.CS.StateMachine/StateMachine.cs#L306)" method to transit to the next state based on a given condition.
+1. The [`Continue`](./biz.dfch.CS.StateMachine/StateMachine.cs#L94) condition makes a transition from an arbitrary state to the next state as the "good case"
+1. The [`Cancel`](./biz.dfch.CS.StateMachine/StateMachine.cs#L02) condition makes a transition from an arbitrary state to the next state as the "bad case"
+1. Furthermore there is the [`GetNext`](./biz.dfch.CS.StateMachine/StateMachine.cs#L306) method to transit to the next state based on a given condition.
 
 There are as well methods for exporting and importing the configuration along with the states:
 
