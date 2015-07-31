@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("biz.dfch.CS.StateMachine.Tests")]
 namespace biz.dfch.CS.StateMachine
 {
     public class StateMachine
     {
-        protected HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
-        protected HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
-        protected Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
-        protected Object Lock;
+        protected internal HashSet<String> Conditions = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
+        protected internal HashSet<String> States = new HashSet<String>(StringComparer.OrdinalIgnoreCase);
+        protected internal Dictionary<StateTransition, String> Transitions = new Dictionary<StateTransition, String>();
+        protected internal Object Lock = new Object();
 
         public String CurrentState { get; protected set; }
         public String PreviousState { get; protected set; }
@@ -135,13 +137,10 @@ namespace biz.dfch.CS.StateMachine
         public virtual bool SetupStateMachine(String configuration, String currentState = null, String previousState = null)
         {
             var fReturn = false;
-            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             lock (Lock)
             {
-                Dictionary<String, String> dic = jss.Deserialize<Dictionary<String, String>>(configuration);
-                Transitions.Clear();
-                States.Clear();
-                Conditions.Clear();
+                Dictionary<String, String> dic = JsonConvert.DeserializeObject<Dictionary<String, String>>(configuration);
+                Clear();
                 foreach (KeyValuePair<String, String> item in dic)
                 {
                     var sourceStateCondition = item.Key.Split('-');
@@ -174,7 +173,7 @@ namespace biz.dfch.CS.StateMachine
             return fReturn;
         }
 
-        protected StateMachine AddCondition(String name)
+        protected internal StateMachine AddCondition(String name)
         {
             lock (Lock)
             {
@@ -188,7 +187,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine AddConditions(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -205,7 +204,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddState(String name)
+        protected internal StateMachine AddState(String name)
         {
             lock (Lock)
             {
@@ -219,7 +218,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        protected StateMachine AddStates(IEnumerable<String> names, bool ignoreExisting = false)
+        protected internal StateMachine AddStates(IEnumerable<String> names, bool ignoreExisting = false)
         {
             lock (Lock)
             {
@@ -236,8 +235,7 @@ namespace biz.dfch.CS.StateMachine
             return this;
         }
 
-        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
-        protected StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
+        protected internal StateMachine SetStateTransition(String sourceState, String condition, String targetState, bool fReplace = false)
         {
             lock (Lock)
             {
@@ -257,28 +255,6 @@ namespace biz.dfch.CS.StateMachine
                     }
                 }
                 Transitions.Add(stateTransition, targetState);
-            }
-            return this;
-        }
-
-        // DFTODO refactor (Similarities between InsertStateTransition and SetStateTransition)
-        protected StateMachine InsertStateTransition(String sourceState, String condition, String targetStateNew, bool fCreateTargetState = false)
-        {
-            lock (Lock)
-            {
-                ValidateInput(sourceState, condition, targetStateNew, fCreateTargetState);
-                String _processState;
-                var stateTransition = new StateTransition(sourceState, condition);
-                var fReturn = Transitions.TryGetValue(stateTransition, out _processState);
-                // DFCHECK Why this check? It should not throw an exception, if stateTransition was not found
-                if (!fReturn)
-                {
-                    throw new ArgumentException(String.Format("stateTransition not found: '{0}' -- > '{1}'", sourceState, condition));
-                }
-                Transitions.Remove(stateTransition);
-                Transitions.Add(stateTransition, targetStateNew);
-                var stateTransitionNew = new StateTransition(targetStateNew, condition);
-                Transitions.Add(stateTransitionNew, _processState);
             }
             return this;
         }
@@ -332,7 +308,7 @@ namespace biz.dfch.CS.StateMachine
             return CurrentState;
         }
 
-        protected virtual void Clear()
+        protected internal virtual void Clear()
         {
             lock (Lock)
             {
@@ -344,16 +320,15 @@ namespace biz.dfch.CS.StateMachine
 
         public virtual String GetStringRepresentation()
         {
-            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             lock (Lock)
             {
                 var dic = Transitions.ToDictionary(k => k.Key.ToString(), v => v.Value);
-                var stateMachineSerialised = jss.Serialize(dic);
+                var stateMachineSerialised = JsonConvert.SerializeObject(dic);
                 return stateMachineSerialised;
             }
         }
 
-        protected class StateTransition
+        protected internal class StateTransition
         {
             readonly String CurrentState;
             readonly String Condition;
