@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("d-fens GmbH")]
 [assembly: AssemblyProduct("biz.dfch.CS.StateMachine")]
-[assembly: AssemblyCopyright("Copyright ©  2015 Ronald Rink, d-fens GmbH")]
+[assembly: AssemblyCopyright("Copyright © 2015 d-fens GmbH")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
