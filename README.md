@@ -4,6 +4,9 @@
 
 A simple C# based State Machine that can be configured via State Transitions based on an idea by [Juliet](http://stackoverflow.com/users/40516/juliet) "[Simple state machine example in C#?](http://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c)"
 
+You can download this package via [NuGet](http://nuget.org) with [Install-Package biz.dfch.CS.StateMachine](https://www.nuget.org/packages/biz.dfch.CS.StateMachine/).
+
+
 # DESCRIPTION
 
 The project contains an extendable StateMachine that defines a few simple states and two conditions ("Continue", "Cancel") that can be used to advance (transition) through that state machine.
