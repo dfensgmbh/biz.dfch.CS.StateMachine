@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>biz.dfch.CS.StateMachine</id>
-        <version>1.0.0.1</version>
+        <version>1.0.1</version>
         <title>biz.dfch.CS.StateMachine</title>
         <authors>d-fens GmbH</authors>
         <owners>d-fens GmbH</owners>
@@ -65,7 +65,7 @@ There are as well methods for exporting and importing the configuration along wi
         <releaseNotes>20150731
 
 * Initial release</releaseNotes>
-        <copyright>Copyright © 2015 d-fens GmbH</copyright>
+        <copyright>Copyright Â© 2015 d-fens GmbH</copyright>
         <tags>dfch fsm C#</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="7.0.1" />
