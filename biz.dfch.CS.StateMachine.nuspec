@@ -6,10 +6,10 @@
         <title>biz.dfch.CS.StateMachine</title>
         <authors>d-fens GmbH</authors>
         <owners>d-fens GmbH</owners>
-		<licenseUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/LICENSE</licenseUrl>
+	<licenseUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine</projectUrl>
         <iconUrl>https://avatars1.githubusercontent.com/u/8310404?v=3&s=200</iconUrl>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>biz.dfch.CS.StateMachine
 ========================
 
