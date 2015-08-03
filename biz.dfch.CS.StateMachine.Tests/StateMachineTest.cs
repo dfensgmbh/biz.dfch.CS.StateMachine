@@ -17,6 +17,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using MSTestExtensions;
 
 namespace biz.dfch.CS.StateMachine.Tests
 {
@@ -216,17 +217,15 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingCurrentStateThrowsException()
         {
-            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_PENDING);
+            ThrowsAssert.Throws<ArgumentOutOfRangeException>(() => _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_PENDING));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetupStateMachineWithNonExistingPreviousStateThrowsException()
         {
-            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_CREATED, STATE_PENDING);
+            ThrowsAssert.Throws<ArgumentOutOfRangeException>(() => _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION, STATE_CREATED, STATE_PENDING));
         }
 
         [TestMethod]
@@ -237,10 +236,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddConditionWithAlreadyExistingConditionThrowsException()
         {
-            _stateMachine.AddCondition(CONDITION_CANCEL);
+            ThrowsAssert.Throws<ArgumentException>(() => _stateMachine.AddCondition(CONDITION_CANCEL));
         }
 
         [TestMethod]
@@ -260,10 +258,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddConditionsWithConditionCollectionContainingExistingConditionsNotIgnoringExistingThrowsException()
         {
-            _stateMachine.AddConditions(new List<String> { CONDITION_DEPLOY, CONDITION_RUN, CONDITION_CANCEL });
+            ThrowsAssert.Throws<ArgumentException>(() => _stateMachine.AddConditions(new List<String> { CONDITION_DEPLOY, CONDITION_RUN, CONDITION_CANCEL }));
         }
 
         [TestMethod]
@@ -282,10 +279,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddStateWithAlreadyExistingStateThrowsException()
         {
-            _stateMachine.AddState(STATE_RUNNING);
+            ThrowsAssert.Throws<ArgumentException>(() => _stateMachine.AddState(STATE_RUNNING));
         }
 
         [TestMethod]
@@ -305,10 +301,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AddStatesWithStateCollectionContainingExistingStatesNotIgnoringExistingThrowsException()
         {
-            _stateMachine.AddStates(new List<String> { STATE_PENDING, STATE_STOPPED, STATE_COMPLETED });
+            ThrowsAssert.Throws<ArgumentException>(() => _stateMachine.AddStates(new List<String> { STATE_PENDING, STATE_STOPPED, STATE_COMPLETED }));
         }
 
         [TestMethod]
@@ -320,24 +315,21 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingSourceStateThrowsException()
         {
-            _stateMachine.SetStateTransition(STATE_STOPPED, CONDITION_CANCEL, STATE_CANCELLED);
+            ThrowsAssert.Throws<KeyNotFoundException>(() => _stateMachine.SetStateTransition(STATE_STOPPED, CONDITION_CANCEL, STATE_CANCELLED));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingTargetStateAndCreateTargetStateFlagFalseThrowsException()
         {
-            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_STOPPED);
+            ThrowsAssert.Throws<KeyNotFoundException>(() => _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_STOPPED));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void SetStateTransitionWithNonExistingConditionThrowsException()
         {
-            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_RUN, STATE_COMPLETED);
+            ThrowsAssert.Throws<KeyNotFoundException>(() => _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_RUN, STATE_COMPLETED));
         }
 
         [TestMethod]
@@ -349,10 +341,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void SetStateTransitionWithExistingStateTransitionAndReplaceFalseThrowsException()
         {
-            _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_ERROR);
+            ThrowsAssert.Throws<ArgumentException>(() => _stateMachine.SetStateTransition(STATE_CREATED, CONDITION_CONTINUE, STATE_ERROR));
         }
 
         [TestMethod]
@@ -364,11 +355,10 @@ namespace biz.dfch.CS.StateMachine.Tests
         } 
 
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void ValidateInputThrowsExceptionForNonExistingSourceState()
         {
             var wrapper = new PrivateObject(_stateMachine);
-            wrapper.Invoke("ValidateInput", new Object[4] { STATE_STOPPED, CONDITION_CONTINUE, STATE_RUNNING, false });
+            ThrowsAssert.Throws<KeyNotFoundException>(() => wrapper.Invoke("ValidateInput", new Object[4] { STATE_STOPPED, CONDITION_CONTINUE, STATE_RUNNING, false }));
         }
 
         [TestMethod]
@@ -379,10 +369,9 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetNextStateWithNonExistingConditionThrowsException()
         {
-            _stateMachine.GetNextState(CONDITION_DEPLOY);
+            ThrowsAssert.Throws<ArgumentOutOfRangeException>(() => _stateMachine.GetNextState(CONDITION_DEPLOY));
         }
 
         [TestMethod]
@@ -392,13 +381,12 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NextForStateWithNoContinueTransitionThrowsException()
         {
            _stateMachine.Next();
            _stateMachine.Next();
            _stateMachine.Next();
-           _stateMachine.Next();
+           ThrowsAssert.Throws<ArgumentOutOfRangeException>(() => _stateMachine.Next());
         }
 
         [TestMethod]
@@ -408,13 +396,12 @@ namespace biz.dfch.CS.StateMachine.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CancelForStateWithNoCancelTransitionThrowsException()
         {
             _stateMachine.Next();
             _stateMachine.Next();
             _stateMachine.Next();
-            _stateMachine.Cancel();
+            ThrowsAssert.Throws<ArgumentOutOfRangeException>(() => _stateMachine.Cancel());
         }
 
         [TestMethod]
