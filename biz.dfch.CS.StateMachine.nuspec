@@ -65,7 +65,7 @@ There are as well methods for exporting and importing the configuration along wi
         <releaseNotes>20150731
 
 * Initial release</releaseNotes>
-        <copyright>Copyright © 2015 d-fens GmbH</copyright>
+        <copyright>Copyright © 2014 - 2015 d-fens GmbH</copyright>
         <tags>dfch fsm C#</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="7.0.1" />
