@@ -6,9 +6,9 @@
         <title>biz.dfch.CS.StateMachine</title>
         <authors>d-fens GmbH</authors>
         <owners>d-fens GmbH</owners>
-	<licenseUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/LICENSE</licenseUrl>
+		<licenseUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/dfensgmbh/biz.dfch.CS.StateMachine</projectUrl>
-        <iconUrl>https://avatars1.githubusercontent.com/u/8310404?v=3&s=200</iconUrl>
+        <iconUrl>https://avatars1.githubusercontent.com/u/8310404?v=3&amp;s=200</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>biz.dfch.CS.StateMachine
 ========================
@@ -62,9 +62,9 @@ There are as well methods for exporting and importing the configuration along wi
 * [`GetStringRepresentation()`](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/biz.dfch.CS.StateMachine/StateMachine.cs#L345)
 * [`SetupStateMachine(String configuration, String currentState = null, String previousState = null)`](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/biz.dfch.CS.StateMachine/StateMachine.cs#L135)</description>
         <summary>A simple C# based State Machine that can be configured via State Transitions based on an idea by [Juliet](http://stackoverflow.com/users/40516/juliet) "[Simple state machine example in C#?](http://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c)"</summary>
-        <releaseNotes>20150731
+        <releaseNotes>20150803
 
-* Initial release</releaseNotes>
+* Maintenance release</releaseNotes>
         <copyright>Copyright © 2014 - 2015 d-fens GmbH</copyright>
         <tags>dfch fsm C#</tags>
         <dependencies>
