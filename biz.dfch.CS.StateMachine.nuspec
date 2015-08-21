@@ -71,4 +71,7 @@ There are as well methods for exporting and importing the configuration along wi
             <dependency id="Newtonsoft.Json" version="6.0.8" />
         </dependencies>
     </metadata>
+	<files>
+		<file src="biz.dfch.CS.StateMachine\bin\Release\biz.dfch.CS.StateMachine.dll" target="lib\" />
+	</files>
 </package>
