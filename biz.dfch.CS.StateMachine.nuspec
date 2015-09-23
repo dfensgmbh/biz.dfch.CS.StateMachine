@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>biz.dfch.CS.StateMachine</id>
-        <version>1.0.3</version>
+        <version>1.1.0</version>
         <title>biz.dfch.CS.StateMachine</title>
         <authors>d-fens GmbH</authors>
         <owners>d-fens GmbH</owners>
@@ -64,7 +64,7 @@ There are as well methods for exporting and importing the configuration along wi
         <summary>A simple C# based State Machine that can be configured via State Transitions based on an idea by [Juliet](http://stackoverflow.com/users/40516/juliet) "[Simple state machine example in C#?](http://stackoverflow.com/questions/5923767/simple-state-machine-example-in-c)"</summary>
         <releaseNotes>20150821
 
-* Package creation adjusted to only deliver dll</releaseNotes>
+* Namespace changed to biz.dfch.CS.FinalStateMachine</releaseNotes>
         <copyright>Copyright © 2014 - 2015 d-fens GmbH</copyright>
         <tags>dfch fsm C#</tags>
         <dependencies>
