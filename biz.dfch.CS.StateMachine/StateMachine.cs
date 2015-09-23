@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("biz.dfch.CS.StateMachine.Tests")]
-namespace biz.dfch.CS.StateMachine
+namespace biz.dfch.CS.FinalStateMachine
 {
     public class StateMachine
     {
