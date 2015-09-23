@@ -7,7 +7,7 @@
     <ProjectGuid>{A5869A24-F71B-4E6B-A570-ABA2AB213FDE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>biz.dfch.CS.StateMachine</RootNamespace>
+    <RootNamespace>biz.dfch.CS.FinalStateMachine</RootNamespace>
     <AssemblyName>biz.dfch.CS.StateMachine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
