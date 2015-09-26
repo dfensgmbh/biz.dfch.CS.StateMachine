@@ -53,3 +53,12 @@ There are as well methods for exporting and importing the configuration along wi
 
 * [`GetStringRepresentation()`](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/biz.dfch.CS.StateMachine/StateMachine.cs#L345)
 * [`SetupStateMachine(String configuration, String currentState = null, String previousState = null)`](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/master/biz.dfch.CS.StateMachine/StateMachine.cs#L135)
+
+## Release Notes
+
+### 1.2.0 20150926
+
+* adjust namespace
+* States and Conditions can now be retrieved by consumer
+* added code contracts pre-conditions
+* enabled CodeContracts assemlby
