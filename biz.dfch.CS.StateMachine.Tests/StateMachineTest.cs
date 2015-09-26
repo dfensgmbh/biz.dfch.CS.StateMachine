@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using MSTestExtensions;
 
-namespace biz.dfch.CS.FinalStateMachine.Tests
+namespace biz.dfch.CS.FiniteStateMachine.Tests
 {
     [TestClass]
     public class StateMachineTest
