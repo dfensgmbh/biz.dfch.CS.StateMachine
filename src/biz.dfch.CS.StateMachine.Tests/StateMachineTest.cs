@@ -459,5 +459,26 @@ namespace biz.dfch.CS.FiniteStateMachine.Tests
             var transition = new StateMachine.StateTransition(STATE_CREATED, CONDITION_RUN);
             Assert.IsFalse(transition.Equals(null));
         }
+
+        [TestMethod]
+        public void StateMachineInCreatedStateReturnsAvailableConditions()
+        {
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
+            Assert.AreEqual("Created", _stateMachine.CurrentState);
+
+            var conditionsInCreatedState = _stateMachine.ConditionsFromState(_stateMachine.CurrentState);
+
+            Assert.AreEqual(2, conditionsInCreatedState.Count);
+            Assert.IsTrue(conditionsInCreatedState.Contains("Continue"));
+            Assert.IsTrue(conditionsInCreatedState.Contains("Cancel"));
+
+            _stateMachine.Next();
+            Assert.AreEqual("Stopped", _stateMachine.CurrentState);
+
+            var conditionsInStoppedState = _stateMachine.ConditionsFromState(_stateMachine.CurrentState);
+            
+            Assert.AreEqual(1, conditionsInStoppedState.Count);
+            Assert.IsTrue(conditionsInStoppedState.Contains("Run"));
+        }
     }
 }
