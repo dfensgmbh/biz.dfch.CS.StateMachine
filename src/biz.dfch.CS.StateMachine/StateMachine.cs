@@ -80,6 +80,27 @@ namespace biz.dfch.CS.FiniteStateMachine
             return _conditions.Contains(name);
         }
 
+        public HashSet<string> ConditionsFromState()
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(CurrentState));
+
+            return ConditionsFromState(CurrentState);
+        }
+
+        public HashSet<string> ConditionsFromState(string name)
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(name));
+
+            var conditions = _transitions
+                .Select(t => t.Key)
+                .Where(t => t.CurrentState.Equals(name, StringComparison.OrdinalIgnoreCase))
+                .Select(t => t.Condition)
+                .ToList();
+            Contract.Assert(null != conditions);
+
+            return new HashSet<string>(conditions);
+        }
+
         public string CurrentState { get; protected set; }
         public string PreviousState { get; protected set; }
         public string InitialState
@@ -410,8 +431,8 @@ namespace biz.dfch.CS.FiniteStateMachine
 
         public class StateTransition
         {
-            readonly string CurrentState;
-            readonly string Condition;
+            internal readonly string CurrentState;
+            internal readonly string Condition;
 
             public StateTransition(string sourceState, string condition)
             {
