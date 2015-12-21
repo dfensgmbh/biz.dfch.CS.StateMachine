@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("biz.dfch.CS.StateMachine")]
-[assembly: AssemblyDescription("C# based state machine")]
+[assembly: AssemblyTitle("biz.dfch.CS.StateMachine.Tests")]
+[assembly: AssemblyDescription("Tests for StateMachine project")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("d-fens GmbH")]
-[assembly: AssemblyProduct("biz.dfch.CS.StateMachine")]
+[assembly: AssemblyProduct("biz.dfch.CS.StateMachine.Tests")]
 [assembly: AssemblyCopyright("Copyright © 2015 d-fens GmbH")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0fb1d907-1fb1-4556-a4e3-e9a84d7f85d4")]
+[assembly: Guid("22dd800e-fe43-4a49-bb8b-a603e43d6364")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.1.0.*")]
+//[assembly: AssemblyFileVersion("1.1.0.0")]
