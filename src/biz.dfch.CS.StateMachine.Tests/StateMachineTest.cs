@@ -480,5 +480,17 @@ namespace biz.dfch.CS.FiniteStateMachine.Tests
             Assert.AreEqual(1, conditionsInStoppedState.Count);
             Assert.IsTrue(conditionsInStoppedState.Contains("Run"));
         }
+
+        [TestMethod]
+        public void StateMachineInStoppedStateReturnsAvailableConditions()
+        {
+            _stateMachine.SetupStateMachine(CUSTOM_STATE_MACHINE_CONFIGURATION);
+            Assert.AreEqual("Created", _stateMachine.CurrentState);
+            
+            var conditionsInStoppedState = _stateMachine.ConditionsFromState("Stopped");
+
+            Assert.AreEqual(1, conditionsInStoppedState.Count);
+            Assert.IsTrue(conditionsInStoppedState.Contains("Run"));
+        }
     }
 }
