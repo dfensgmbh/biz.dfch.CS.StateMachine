@@ -33,8 +33,8 @@ When instatiating the StateMachine with the default constructor the following st
 
 Source state | Condition | Target state
 :-----|:-----|:------
-Created | Continue | Running
-Created | Cancel | InternalErrorState
+InitialState | Continue | Running
+InitialState | Cancel | InternalErrorState
 Running | Continue | Completed
 Running | Cancel | Cancelled
 Completed | Continue | Disposed
