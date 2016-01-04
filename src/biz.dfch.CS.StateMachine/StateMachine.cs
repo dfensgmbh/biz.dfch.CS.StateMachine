@@ -107,7 +107,7 @@ namespace biz.dfch.CS.FiniteStateMachine
         {
             get
             {
-                return "Created";
+                return "InitialState";
             }
             protected set { }
         }
