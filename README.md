@@ -63,3 +63,7 @@ There are as well methods for exporting and importing the configuration along wi
 * States and Conditions can now be retrieved by consumer
 * added code contracts pre-conditions
 * enabled CodeContracts assemlby
+
+[![TeamCity Logo](https://github.com/dfensgmbh/biz.dfch.CS.StateMachine/blob/develop/TeamCity.png)](https://www.jetbrains.com/teamcity/)
+
+Built and released with TeamCity
